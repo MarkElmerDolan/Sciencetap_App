@@ -1,0 +1,50 @@
+<ion-view view-title="Settings" name="settings-view">
+	<ion-header-bar class="bar-positive">
+		<div class="title">Settings</div>
+	</ion-header-bar>
+	<div class="bar bar-stable bar-subheader">
+		<h2 class="title">Welcome {{user.firstName}} </h2>
+	</div>
+<ion-view class="bg">
+	<ion-content class="padding has-subheader has-footer">
+		<div class="list">
+			<div class="item item-divider">
+			My Account 
+			</div>
+			<ion-item>
+			Name: <span class="item-note">{{user.firstName}} {{user.lastName}}</span>
+			</ion-item>
+			<ion-item>
+			Role: <span class="item-note">{{user.role}}</span>
+			</ion-item>
+			<ion-item>
+			Email: <span class="item-note">{{user.email}}</span>
+			</ion-item>
+			<ion-item>
+			Phone: <span class="item-note">{{user.phone}}</span>
+			</ion-item>
+		</div>
+		<h4>{{message}}</h4>
+		<button class="button button-calm button-block" ng-click="setPassword()">
+		Set Password
+		</button>
+		<button class="button button-royal button-block" ng-click="logout()">
+		Sign Out
+		</button>
+	</ion-content>
+</ion-view>
+	<div class="tabs tabs-positive tabs-icon-bottom">
+		<a nav-transition="ios" href="#/map" class="tab-item">
+		<i class="icon ion-map"></i>
+		Map
+		</a>
+		<a nav-transition="ios" ng-click="goToCollect()" href="#/collect" class="tab-item">
+		<i class="icon ion-clipboard"></i>
+		Collect
+		</a>
+		<a nav-transition="ios" href="#/view" class="tab-item">
+		<i class="icon ion-eye"></i>
+		View
+		</a>
+	</div>
+</ion-view>

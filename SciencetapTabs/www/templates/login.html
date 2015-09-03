@@ -1,0 +1,20 @@
+<ion-view view-title="Login" name="login-view">
+  <ion-content class="padding login">
+	<img src="img/login_logo.png" id="loginLogo"/>
+      <div class="list list-inset">
+          <label class="item item-input">
+              <input type="email" placeholder="Email" ng-model="data.username">
+          </label>
+          <label class="item item-input">
+              <input type="password" placeholder="Password" ng-model="data.password">
+          </label>
+      </div>
+      <button class="button button-block button-calm" ng-click="login()" ng-disabled="loginDisabled">Login</button>
+      <div class="loginText">
+      <a href="passwordReset.html" id="forgotPassword">Forgot Password</a>
+      </div>
+      <div class="loginText">
+      <a href="createAccount.html" id="createAccount">Create Account</a>
+      </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,83 @@
+<ion-view view-title="Collect" name="collect-view">
+	<ion-header-bar class="bar-positive">
+		<div class="buttons">
+		<a nav-transition="ios" href="#/settings" class="button button-positive">
+		<i class="icon ion-gear-b"></i>
+		</a>
+		</div>
+		<div class="title">Collect</div>
+		<button class="button button-positive" ng-click="getPhoto()">
+		<i class="icon ion-camera"></i>
+		</button>
+	</ion-header-bar>
+	<ion-view class="bg">
+	<ion-content class="has-footer">
+		<div class="list card">
+		<a class="item" href="#" ng-click="openProjectModal()">Project<span class="item-note">{{selectedProject.name}}</span></a>
+		<a class="item" href="#" ng-click="openSitesModal()">Site <span class="item-note">{{selectedSite.name}}</span></a>
+
+		<div class="item item-input">
+		<label>
+		<span class="input-label">Lat&nbsp;</span>
+		</label>
+		<input class="inputAlignRight" type="number" ng-model="currentLat">
+		</div>
+
+		<div class="item item-input">
+		<label>
+		<span class="input-label">Long</span>
+		</label>
+		<input class="inputAlignRight" type="number" ng-model="currentLong">
+		</div>
+
+		<label class="item item-input">
+		<span class="input-label">Time </span>
+		<span class="item-note">
+		<input class="inputAlignRight" type="text" ng-model="currentTime"/>
+		</span>
+		</label>
+
+		<a ng-show="showImagesItem" class="item wrap" href="#" ng-click="openPictureModal()">
+		<img class="thumb" ng-repeat="image in images" src="{{image}}">
+		</a>
+
+		<a class="item" href="#" ng-click="openFormsModal()">
+		Form <span class="item-note">{{selectedForm.name}}</span>
+		</a>
+
+		<label ng-show="formSelected" ng-repeat="field in selectedForm.fields" ng-class="{'item item-input': field.fieldID == 1 || field.fieldID == 2 || field.fieldID == 3 || field.fieldID == 4, 'item item-checkbox': field.fieldID == 5}">
+
+		<span class="input-label">{{field.name}}</span>
+		<input type="number" ng-if="field.fieldID == 1" ></input>
+		<textarea ng-if="field.fieldID == 2"></textarea>
+		<input type="date" ng-if="field.fieldID == 3"></input>
+		<input type="time" ng-if="field.fieldID == 4"></input>
+		<label class="checkbox" ng-if="field.fieldID == 5">
+		<input type="checkbox">
+		</label>
+
+		</label>
+		<label class="item item-input">
+		<textarea placeholder="Notes" rows="3"></textarea>
+		</label>
+
+		</div>
+		<button class="button button-block button-royal">Submit</button>
+	</ion-content>
+	</ion-view>
+
+	<div class="tabs tabs-positive tabs-icon-bottom">
+	<a nav-transition="ios" href="#/map" class="tab-item">
+	<i class="icon ion-map"></i>
+	Map
+	</a>
+	<a nav-transition="ios" href="#/collect" class="tab-item">
+	<i class="icon ion-clipboard"></i>
+	Collect
+	</a>
+	<a nav-transition="ios" href="#/view" class="tab-item">
+	<i class="icon ion-eye"></i>
+	View
+	</a>
+	</div>
+</ion-view>
