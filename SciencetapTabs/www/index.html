@@ -112,7 +112,7 @@
             </ion-header-bar>
             <ion-content class="padding">
             <div class="list">
-            <ion-item ng-repeat="site in sites" ng-show="selectedProject.id == site.projectID" ng-click="selectSite(site);closeSitesModal()">{{site.name}}</ion-item>
+            <ion-item ng-repeat="site in sites" ng-show="selectedProject.id == site.project_id" ng-click="selectSite(site);closeSitesModal()">{{site.site_name}}</ion-item>
             </div>
             </ion-content>
             </ion-modal-view>
@@ -128,7 +128,7 @@
                 </ion-header-bar>
                 <ion-content class="padding">
                     <div class="list">
-                    <ion-item ng-repeat="form in forms" ng-click="selectForm(form);closeFormsModal()">{{form.name}}</ion-item>
+                    <ion-item ng-repeat="form in forms" ng-show="selectedProject.id == form.project_id "ng-click="selectForm(form);closeFormsModal()">{{form.name}}</ion-item>
                     </div>
                 </ion-content>
             </ion-modal-view>

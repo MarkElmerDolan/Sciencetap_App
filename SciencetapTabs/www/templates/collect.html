@@ -12,30 +12,10 @@
 	</ion-header-bar>
 	<ion-view class="bg">
 	<ion-content class="has-footer">
+		<form name="mainForm" ng-submit="submitData()">
 		<div class="list card">
 		<a class="item" href="#" ng-click="openProjectModal()">Project<span class="item-note">{{selectedProject.name}}</span></a>
-		<a class="item" href="#" ng-click="openSitesModal()">Site <span class="item-note">{{selectedSite.name}}</span></a>
-
-		<div class="item item-input">
-		<label>
-		<span class="input-label">Lat&nbsp;</span>
-		</label>
-		<input class="inputAlignRight" type="number" ng-model="currentLat">
-		</div>
-
-		<div class="item item-input">
-		<label>
-		<span class="input-label">Long</span>
-		</label>
-		<input class="inputAlignRight" type="number" ng-model="currentLong">
-		</div>
-
-		<label class="item item-input">
-		<span class="input-label">Time </span>
-		<span class="item-note">
-		<input class="inputAlignRight" type="text" ng-model="currentTime"/>
-		</span>
-		</label>
+		<a class="item" href="#" ng-click="openSitesModal()">Site <span class="item-note">{{selectedSite.site_name}}</span></a>
 
 		<a ng-show="showImagesItem" class="item wrap" href="#" ng-click="openPictureModal()">
 		<img class="thumb" ng-repeat="image in images" src="{{image}}">
@@ -45,24 +25,28 @@
 		Form <span class="item-note">{{selectedForm.name}}</span>
 		</a>
 
-		<label ng-show="formSelected" ng-repeat="field in selectedForm.fields" ng-class="{'item item-input': field.fieldID == 1 || field.fieldID == 2 || field.fieldID == 3 || field.fieldID == 4, 'item item-checkbox': field.fieldID == 5}">
+		<label ng-show="formSelected" ng-repeat="field in selectedForm.fields" ng-class="{'item item-input': field.form_input_type == 'Text'  || field.form_input_type == 'Number', 'item item-input item-select':  field.form_input_type == 'Dropdown', 'item item-checkbox': field.form_input_type == 'CheckBox'}">
 
 		<span class="input-label">{{field.name}}</span>
-		<input type="number" ng-if="field.fieldID == 1" ></input>
-		<textarea ng-if="field.fieldID == 2"></textarea>
-		<input type="date" ng-if="field.fieldID == 3"></input>
-		<input type="time" ng-if="field.fieldID == 4"></input>
-		<label class="checkbox" ng-if="field.fieldID == 5">
-		<input type="checkbox">
+		<input ng-model="field.input" type="number" ng-if="field.form_input_type == 'Number'" ></input>
+		<textarea ng-model="field.input" ng-if="field.form_input_type == 'Text'"></textarea>
+		<label class="checkbox" ng-if="field.form_input_type == 'CheckBox'">
+		<input ng-model="field.input" type="checkbox">
 		</label>
+		<select ng-model="field.input "ng-if="field.form_input_type =='Dropdown'">
+			<option on-tap="blurAll()" ng-repeat="dropdown in dropdowns" ng-show="field.fieldID == dropdown.form_input_id">{{dropdown.dropdown_value}}</option>
+		</select>
 
 		</label>
+<!--
 		<label class="item item-input">
 		<textarea placeholder="Notes" rows="3"></textarea>
 		</label>
+-->
 
 		</div>
-		<button class="button button-block button-royal">Submit</button>
+		<input class="button button-block button-royal" type="submit" value="Submit">
+		</form>
 	</ion-content>
 	</ion-view>
 

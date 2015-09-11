@@ -60,7 +60,7 @@ app.controller('SciencetapCtrl', function($scope, $ionicPopup, $state, $ionicLoa
 	$scope.data = {};
 	$scope.loginDisabled = false;
 	$scope.login = function(){
-		LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data){
+		LoginService.loginUser($scope.data.username, $scope.data.password, $scope.projects).success(function(data){
 			$scope.loginDisabled = true;
 			var request = $http({
 			    method: "post",
@@ -71,6 +71,7 @@ app.controller('SciencetapCtrl', function($scope, $ionicPopup, $state, $ionicLoa
 			    }
 			});
 			request.success(function(data){
+					console.log(data);
 				if (data.Status == 'Success'){
 					window.localStorage.setItem("userId", data.userId);
 					window.localStorage.setItem("firstName", data.firstName);
@@ -92,6 +93,16 @@ app.controller('SciencetapCtrl', function($scope, $ionicPopup, $state, $ionicLoa
 						window.localStorage.setItem("message", data.Message);
 					}
 					window.localStorage.setItem('loggedInUser', true);
+					for(var i = 0; i < data.projects.length; i++){
+						$scope.projects.push(
+						{
+						    name: data.projects[i].name,
+						    id: data.projects[i].id
+						}
+						);
+					}
+					console.log($scope.projects);
+					console.log("In login ajax");
 					$state.go('settings');
 				}else{
 					window.localStorage.removeItem('loggedInUser');
@@ -118,6 +129,132 @@ app.controller('SciencetapCtrl', function($scope, $ionicPopup, $state, $ionicLoa
 	$scope.user.lastName = window.localStorage.getItem("lastName");
 	$scope.message = window.localStorage.getItem("message");
 
+	$scope.projects = [];
+	$scope.sites = [];
+	$scope.forms = [];
+	$scope.form_inputs= [];
+	$scope.formSelected = false;
+	$scope.dropdowns = [];
+
+	var request = $http({
+	    method: "post",
+	    url: 'http://sciencetap.us/ionic/getCollectData.php',
+	    data:{
+		userId: $scope.user.id
+	    }
+	});
+	request.success(function(data){
+		console.log(data);
+		if (data.Status == 'Success'){
+			for(var i = 0; i < data.projects.length; i++){
+				$scope.projects.push(
+				{
+				    name: data.projects[i].name,
+				    id: data.projects[i].id
+				}
+				);
+			}
+			for(var i = 0; i < data.sites.length; i++){
+				$scope.sites.push(
+				{
+				    site_name: data.sites[i].site_name,
+				    site_id: data.sites[i].site_id,
+				    project_id: data.sites[i].project_id
+				}
+				);
+			}
+			for(var i = 0; i < data.forms.length; i++){
+				$scope.forms.push(
+				{
+					name:  data.forms[i].form_name,
+					id: data.forms[i].form_id,
+					description: data.forms[i].form_description,
+					project_id: data.forms[i].project_id,
+					fields: []
+				}
+				);
+			}
+			for(i = 0; i < data.form_inputs.length; i++){
+				$scope.form_inputs.push(
+				{
+				    name: data.form_inputs[i].form_input_name,
+				    fieldID: data.form_inputs[i].form_input_id,
+				    formID: data.form_inputs[i].form_id,
+					input: '',
+					form_input_type: data.form_inputs[i].form_input_type
+				}
+				);
+			}
+			for(i = 0; i < $scope.form_inputs.length; i++){
+			    for(var j = 0; j < $scope.forms.length; j++){
+				if($scope.forms[j].id == $scope.form_inputs[i].formID){
+				    $scope.forms[j].fields.push($scope.form_inputs[i]);
+				}
+			    }
+			}
+			for(i = 0; i < data.dropdowns.length; i++){
+				$scope.dropdowns.push(
+				{
+				    dropdown_value: data.dropdowns[i].dropdown_value,
+				    form_input_id: data.dropdowns[i].form_input_id
+				}
+				);
+			}
+		
+		}
+	});
+
+        $scope.selectedProject = {
+	name: 'Select a Project',
+	id: 0
+	 };
+            
+        $scope.selectedSite = {
+	site_name: 'Select a Site',
+	site_id: 0
+	 };
+
+        $scope.selectedForm = {
+            name:  'Select a Form (Optional)',
+            id: '0',
+            fields: []
+        };
+
+        $scope.selectProject = function(project){
+            $scope.selectedProject = project;
+        }
+        
+        $scope.selectSite = function(site){
+            $scope.selectedSite = site;
+        }
+            
+        $scope.selectForm = function(form){
+            $scope.selectedForm = form;
+            $scope.formSelected = true;
+            console.log($scope.selectedForm);
+        }
+
+	$scope.submitData = function(){
+		var formData;
+		var uploadData = {
+		project_id: $scope.selectedProject.id,
+		site_id: $scope.selectedSite.site_id,
+		form: $scope.selectedForm
+		};
+		console.log("Upload Data");
+		console.log(uploadData);
+		var request = $http({
+		    method: "post",
+		    url: 'http://sciencetap.us/ionic/uploadData.php',
+		    data:{
+			uploadData: uploadData 
+		    }
+		});
+		request.success(function(data){
+			console.log(data);
+		});
+	}
+
 	$scope.password = '';
 	$scope.confirmPassword = '';
 
@@ -140,22 +277,6 @@ app.controller('SciencetapCtrl', function($scope, $ionicPopup, $state, $ionicLoa
         console.log($ionicSlideBoxDelegate.currentIndex());
     }
     
-    $scope.formSelected = false;
-    $scope.forms = [];
-    $scope.formsFields = [];
-
-        
-        $scope.selectedForm = {
-            name:  'Select a Form (Optional)',
-            id: '0',
-            fields: []
-        };
-            
-        $scope.selectForm = function(form){
-            $scope.selectedForm = form;
-            $scope.formSelected = true;
-            console.log($scope.selectedForm);
-        }
         
         $scope.addData = function(num, text){
             console.log(num);
@@ -175,63 +296,7 @@ app.controller('SciencetapCtrl', function($scope, $ionicPopup, $state, $ionicLoa
         
         $scope.currentTime = currentDate.toLocaleTimeString('en-US');
         console.log($scope.currentTime);
-        
-        
 /*
-navigator.geolocation.getCurrentPosition(geolocationSuccess);
-
-function geolocationSuccess (position) {
-
-alert(position.coords.latitude); }
-*/
-
-/*
-$scope.getCurrentPosition = function() {
-    cordovaGeolocationService.getCurrentPosition(function(position){
-        alert(
-            'Latitude: '          + position.coords.latitude          + '\n' +
-            'Longitude: '         + position.coords.longitude         + '\n' +
-            'Altitude: '          + position.coords.altitude          + '\n' +
-            'Accuracy: '          + position.coords.accuracy          + '\n' +
-            'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
-            'Heading: '           + position.coords.heading           + '\n' +
-            'Speed: '             + position.coords.speed             + '\n' +
-            'Timestamp: '         + position.timestamp                + '\n'
-        );
-    });
-};
-*/
-        //$scope.currentLat = 0;
-        //$scope.currentLong = 0;
-        
-
-
-    var watchOptions = {
-      frequency : 1000,
-      timeout : 3000,
-      enableHighAccuracy: false // may cause errors if true
-    };
-/*
-    var watch = navigator.geolocation.watchPosition(watchOptions);
-
-    watch.then(function(pos) {
-        $scope.currentLat = pos.coords.latitude.toFixed(2);
-        $scope.currentLong = pos.coords.longitude.toFixed(2);
-      console.log('assigning your new position');
-
-    }, function(error) {
-        console.log('Error w/ watchPosition: ' + error);
-    });
-    */
-    
-        navigator.geolocation.getCurrentPosition(geolocationSuccess);
-            function geolocationSuccess (position) {
-                $scope.currentLat = Number(position.coords.latitude.toFixed(4));
-                $scope.currentLong = Number(position.coords.longitude.toFixed(4));
-                $scope.$apply();
-            }
-    
-
 	$scope.goToCollect = function(){
 		console.log('In here!');
 		$scope.currentTime = currentDate.toLocaleTimeString('en-US');
@@ -297,6 +362,7 @@ $scope.getCurrentPosition = function() {
 		});
 		$state.go('collect');
 	};
+*/
 
 	$scope.logout = function(){
 		window.localStorage.removeItem('loggedInUser');
@@ -312,27 +378,7 @@ $scope.getCurrentPosition = function() {
 		$state.go('settings');
 	}
 
-        $scope.projects = ['Before Ajax'];
-        $scope.sites = ['Before Ajax'];
-        
-        $scope.selectedProject = {
-            name:  'Select a Project',
-            id: '0',
-            };
             
-        $scope.selectedSite = {
-            name: 'Select a Site',
-            id: '0',
-            projectID: '0'
-            };
-            
-        $scope.selectProject = function(project){
-            $scope.selectedProject = project;
-        }
-        
-        $scope.selectSite = function(site){
-            $scope.selectedSite = site;
-        }
         
        $scope.goBack = function(){
            $ionicHistory.goBack();
@@ -437,7 +483,7 @@ $scope.getCurrentPosition = function() {
 
 app.service('LoginService', function($q, $http, $state){
 	return{ 
-		loginUser: function(name, pw){
+		loginUser: function(name, pw, projects){
 			var deferred = $q.defer();
 			var promise = deferred.promise;
 
