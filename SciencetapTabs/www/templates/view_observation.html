@@ -1,0 +1,19 @@
+<ion-modal-view title="Collect - View" name="collect_view">
+	<ion-header-bar class="bar-positive">
+		<button class="button button-positive" ng-click="closeObservationModal()">
+		Go Back
+		</button>
+		<h1 class="title">Observation</h1>
+	</ion-header-bar>
+	<ion-content class="padding">
+		<div class="list">
+		<ion-item>{{selectedObservation.projectName}}</ion-item>
+		<ion-item>{{selectedObservation.siteName}}</ion-item>
+		<ion-item>{{selectedObservation.formName}}</ion-item>
+		<!--
+	<ion-item repeat="site in sites" ng-show="selectedProject.id == site.project_id" ng-click="selectSite(site);closeSitesModal()">{{site.site_name}}</ion-item>
+-->
+		</div>
+	</ion-content>
+</ion-modal-view>
+

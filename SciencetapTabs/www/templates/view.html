@@ -1,0 +1,37 @@
+<ion-view view-title="View" name="view">
+	<ion-header-bar class="bar-positive">
+		<div class="buttons">
+		<a nav-transition="ios" href="#/settings" class="button">
+		<i class="icon ion-gear-b"></i>
+		</a>
+		</div>
+		<div class="title">View</div>
+	</ion-header-bar>
+	<ion-view class="bg">
+		<ion-content class="padding has-footer">
+		<div class="list card">
+			<a ng-repeat="observationObject in observationObjects" class="item" href="#" ng-click="setObservationObject(observationObject);openObservationModal()">
+	<p>Project: {{observationObject.projectName}}</p>
+	<p>Site: {{observationObject.siteName}}</p>
+	<p>Form: {{observationObject.formName}}</p>
+	<p>Images: {{observationObject.images.length}}</p>
+	<p>Time Created : {{observationObject.time}}</p>
+	</a>
+		</div>
+		</ion-content>
+	</ion-view>
+	<div class="tabs tabs-positive tabs-icon-bottom">
+	<a nav-transition="ios" href="#/map" class="tab-item">
+	<i class="icon ion-map"></i>
+	Map
+	</a>
+	<a nav-transition="ios" href="#/collect" class="tab-item">
+	<i class="icon ion-clipboard"></i>
+	Collect
+	</a>
+	<a nav-transition="ios" href="#/view" class="tab-item">
+	<i class="icon ion-eye"></i>
+	View
+	</a>
+	</div>
+</ion-view>

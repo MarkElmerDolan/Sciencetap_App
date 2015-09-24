@@ -1,0 +1,14 @@
+<ion-modal-view view-title="Collect - Dropdown" name="collect_dropdown">
+	<ion-header-bar class="bar-positive">
+		<button class="button button-positive" ng-click="closeDropdownModal()">
+		    Go Back
+		</button>
+		<h1 class="title">Values</h1>
+	</ion-header-bar>
+	<ion-content class="padding">
+		<div class="list">
+		<ion-item ng-repeat="dropdown in selectedDropdown" ng-click="dropdownInput(dropdown.dropdown_value, dropdown.form_input_id);closeDropdownModal()">{{dropdown.dropdown_value}}</ion-item>
+		</div>
+	</ion-content>
+</ion-modal-view>
+

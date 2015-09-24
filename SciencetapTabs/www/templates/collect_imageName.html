@@ -1,0 +1,17 @@
+<ion-modal-view title="Collect - Image Name" name="collect_imageName"> 
+	<ion-header-bar class="bar-positive">
+		<h1 class="title">Name Your Image</h1>
+	</ion-header-bar>
+	<ion-content class="padding">
+		<div class="list card">
+			<label class="item">
+			<span class="input-label">Please name your image</span>
+			<input ng-model="image.name"></input>
+			</label>
+		</div>
+		<button class="button button-positive button-block" ng-click="closeImageNameModal(image)">
+	Done	
+		</button>
+	</ion-content>
+</ion-modal-view>
+

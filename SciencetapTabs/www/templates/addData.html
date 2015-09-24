@@ -1,0 +1,39 @@
+<ion-modal-view title="Collect - Add Data" name="add_data">
+	<ion-header-bar class="bar-positive">
+		<button class="button button-positive" ng-click="closeAddDataModal()">
+		Go Back
+		</button>
+		<h1 class="title">Add Data Field</h1>
+		<button class="button button-positive" ng-click="addData(addNum, addText);closeAddDataModal()">
+		ADD
+		</button>
+	</ion-header-bar>
+	<ion-content class="padding">
+		<div class="list">
+		<div class="item item-divider">
+		Data Type
+		</div>
+		<label class="item item-radio">
+		<input type="radio" name="group" ng-model="addNum" value="1">
+		<div class="item-content">Number</div>
+		<i class="radio-icon ion-checkmark"></i>
+		</label>
+		<label class="item item-radio">
+		<input type="radio" name="group" ng-model="addNum" value="2">
+		<div class="item-content">Text</div>
+		<i class="radio-icon ion-checkmark"></i>
+		</label>
+		<label class="item item-radio">
+		<input type="radio" name="group" ng-model="addNum" value="5">
+		<div class="item-content">Checkbox</div>
+		<i class="radio-icon ion-checkmark"></i>
+		</label>
+		<div class="item item-divider">
+		Data Field Name
+		</div>
+		<label class="item item-input">
+		<textarea ng-model="addText"></textarea>
+		</label>
+		</div>
+	</ion-content>
+</ion-modal-view>

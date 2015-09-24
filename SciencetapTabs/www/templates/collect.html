@@ -6,6 +6,9 @@
 		</a>
 		</div>
 		<div class="title">Collect</div>
+		<button class="button button-positive" ng-click="refresh()">
+		<i class="icon ion-refresh"></i>
+		</button>
 		<button class="button button-positive" ng-click="getPhoto()">
 		<i class="icon ion-camera"></i>
 		</button>
@@ -18,32 +21,26 @@
 		<a class="item" href="#" ng-click="openSitesModal()">Site <span class="item-note">{{selectedSite.site_name}}</span></a>
 
 		<a ng-show="showImagesItem" class="item wrap" href="#" ng-click="openPictureModal()">
-		<img class="thumb" ng-repeat="image in images" src="{{image}}">
+		<img class="thumb" ng-repeat="image in images" src="{{image.fileURI}}">
 		</a>
 
 		<a class="item" href="#" ng-click="openFormsModal()">
 		Form <span class="item-note">{{selectedForm.name}}</span>
 		</a>
 
-		<label ng-show="formSelected" ng-repeat="field in selectedForm.fields" ng-class="{'item item-input': field.form_input_type == 'Text'  || field.form_input_type == 'Number', 'item item-input item-select':  field.form_input_type == 'Dropdown', 'item item-checkbox': field.form_input_type == 'CheckBox'}">
-
-		<span class="input-label">{{field.name}}</span>
-		<input ng-model="field.input" type="number" ng-if="field.form_input_type == 'Number'" ></input>
-		<textarea ng-model="field.input" ng-if="field.form_input_type == 'Text'"></textarea>
-		<label class="checkbox" ng-if="field.form_input_type == 'CheckBox'">
-		<input ng-model="field.input" type="checkbox">
-		</label>
-		<select ng-model="field.input "ng-if="field.form_input_type =='Dropdown'">
-			<option on-tap="blurAll()" ng-repeat="dropdown in dropdowns" ng-show="field.fieldID == dropdown.form_input_id">{{dropdown.dropdown_value}}</option>
-		</select>
-
-		</label>
-<!--
-		<label class="item item-input">
-		<textarea placeholder="Notes" rows="3"></textarea>
-		</label>
--->
-
+		<div class="list" ng-show="formSelected" ng-repeat="field in selectedForm.fields">
+			<label ng-if="field.form_input_type != 'Dropdown'" ng-class="{'item item-input': field.form_input_type == 'Text'  || field.form_input_type == 'Number', 'item item-checkbox': field.form_input_type == 'CheckBox'}">
+			<span ng-if="field.form_input_type != 'Dropdown'" class="input-label">{{field.name}}</span>
+			<input ng-model="field.input" type="number" ng-if="field.form_input_type == 'Number'" ></input>
+			<textarea ng-model="field.input" ng-if="field.form_input_type == 'Text'"></textarea>
+			<label class="checkbox" ng-if="field.form_input_type == 'CheckBox'">
+			<input ng-model="field.input" type="checkbox">
+			</label>
+			</label>
+			<a ng-if="field.form_input_type == 'Dropdown'" class="item" href="#" ng-click="getDropdown(field.fieldID);openDropdownModal()">{{field.name}}
+			<span class="item-note">{{field.input}}</span>
+			</a>
+		</div>
 		</div>
 		<input class="button button-block button-royal" type="submit" value="Submit">
 		</form>
